@@ -9,14 +9,14 @@ import AppGroupAccess
 import SwiftUI
 
 struct ContentView: View {
-    private let appgroup = AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture")
+    private let fileSystem: AppGroup.FileSystem = AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture").fileSystem
 
     var body: some View {
-        ItemList(directory: directory, appgroup: appgroup)
+        ItemList(directory: directory, fileSystem: fileSystem)
     }
 
     private var directory: URL {
-        appgroup.fileSystem.directory
+        fileSystem.directory
             .appending(component: "wavs", directoryHint: .isDirectory)
     }
 }

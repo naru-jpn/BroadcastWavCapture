@@ -12,23 +12,23 @@ struct ItemList: View {
     @State var title: String
     @State var items: [Item]
 
-    private let appgroup: AppGroup
+    private let fileSystem: AppGroup.FileSystem
 
-    init(directory: URL, appgroup: AppGroup) {
-        title = appgroup.fileSystem.fileName(at: directory)
-        items = appgroup.fileSystem.files(at: directory).map(Item.init(url:))
-        self.appgroup = appgroup
+    init(directory: URL, fileSystem: AppGroup.FileSystem) {
+        title = fileSystem.fileName(at: directory)
+        items = fileSystem.files(at: directory).map(Item.init(url:))
+        self.fileSystem = fileSystem
     }
 
     var body: some View {
         List(items) { item in
-            if appgroup.fileSystem.isDirectory(at: item.url) {
+            if fileSystem.isDirectory(at: item.url) {
                 NavigationLink(
                     destination: {
-                        ItemList(directory: item.url, appgroup: appgroup)
+                        ItemList(directory: item.url, fileSystem: fileSystem)
                     },
                     label: {
-                        Text(appgroup.fileSystem.fileName(at: item.url))
+                        Text(fileSystem.fileName(at: item.url))
                     }
                 )
             } else {
@@ -37,7 +37,7 @@ struct ItemList: View {
                         share(items: [item.url])
                     },
                     label: {
-                        Text(appgroup.fileSystem.fileName(at: item.url))
+                        Text(fileSystem.fileName(at: item.url))
                     }
                 )
             }

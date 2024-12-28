@@ -14,7 +14,7 @@ class SampleHandler: RPBroadcastSampleHandler {
     private var directoryName: String = ""
     private var writerForApp: WAVWriter?
     private var writerForMic: WAVWriter?
-    private lazy var appgroup: AppGroup = { AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture") }()
+    private lazy var fileSystem: AppGroup.FileSystem = { AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture").fileSystem }()
 
     private let resampler = WAVSignalResampler()
 
@@ -91,14 +91,14 @@ extension SampleHandler {
     }
 
     private var appWavURL: URL {
-        appgroup.fileSystem.directory
+        fileSystem.directory
             .appending(component: "wavs", directoryHint: .isDirectory)
             .appending(component: directoryName, directoryHint: .isDirectory)
             .appending(path: "app.wav", directoryHint: .notDirectory)
     }
 
     private var micWavURL: URL {
-        appgroup.fileSystem.directory
+        fileSystem.directory
             .appending(component: "wavs", directoryHint: .isDirectory)
             .appending(component: directoryName, directoryHint: .isDirectory)
             .appending(path: "mic.wav", directoryHint: .notDirectory)
