@@ -6,19 +6,20 @@
 //
 
 import Accelerate
-import AppGroupFiles
+import AppGroupAccess
 import BroadcastWavCapture
 import ReplayKit
 
 class SampleHandler: RPBroadcastSampleHandler {
-    private var timestamp: String = ""
+    private var directoryName: String = ""
     private var writerForApp: WAVWriter?
     private var writerForMic: WAVWriter?
+    private lazy var appgroup: AppGroup = { AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture") }()
 
     private let resampler = WAVSignalResampler()
 
     override func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
-        timestamp = currentTimestamp
+        directoryName = currentTimestamp
     }
     
     override func broadcastPaused() {
@@ -46,7 +47,7 @@ class SampleHandler: RPBroadcastSampleHandler {
                     print(error)
                 }
             } else {
-                writerForApp = WAVWriter(url: appWavURL(timestamp: timestamp), sampleRate: UInt32(sampleRate))
+                writerForApp = WAVWriter(url: appWavURL, sampleRate: UInt32(sampleRate))
             }
             break
         case RPSampleBufferType.audioMic:
@@ -59,7 +60,7 @@ class SampleHandler: RPBroadcastSampleHandler {
                     print(error)
                 }
             } else {
-                writerForMic = WAVWriter(url: micWavURL(timestamp: timestamp), sampleRate: UInt32(sampleRate))
+                writerForMic = WAVWriter(url: micWavURL, sampleRate: UInt32(sampleRate))
             }
             break
         @unknown default:
@@ -89,15 +90,17 @@ extension SampleHandler {
         return dateFormatter.string(from: Date())
     }
 
-    private func appWavURL(timestamp: String) -> URL {
-        AppGroupFiles().directory
-            .appending(component: timestamp, directoryHint: .isDirectory)
+    private var appWavURL: URL {
+        appgroup.fileSystem.directory
+            .appending(component: "wavs", directoryHint: .isDirectory)
+            .appending(component: directoryName, directoryHint: .isDirectory)
             .appending(path: "app.wav", directoryHint: .notDirectory)
     }
 
-    private func micWavURL(timestamp: String) -> URL {
-        AppGroupFiles().directory
-            .appending(component: timestamp, directoryHint: .isDirectory)
+    private var micWavURL: URL {
+        appgroup.fileSystem.directory
+            .appending(component: "wavs", directoryHint: .isDirectory)
+            .appending(component: directoryName, directoryHint: .isDirectory)
             .appending(path: "mic.wav", directoryHint: .notDirectory)
     }
 }

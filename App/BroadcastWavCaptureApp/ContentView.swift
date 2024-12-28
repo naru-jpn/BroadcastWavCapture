@@ -5,15 +5,20 @@
 //  Created by Naruki Chigira on 2024/12/22.
 //
 
-import AppGroupFiles
+import AppGroupAccess
 import SwiftUI
 
 struct ContentView: View {
-    private let files = AppGroupFiles()
+    private let appgroup = AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture")
 
     var body: some View {
-        ItemList(directory: files.directory, files: files)
+        ItemList(directory: directory, appgroup: appgroup)
             .navigationTitle("Root")
+    }
+
+    private var directory: URL {
+        appgroup.fileSystem.directory
+            .appending(component: "wavs", directoryHint: .isDirectory)
     }
 }
 

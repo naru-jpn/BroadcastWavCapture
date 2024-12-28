@@ -5,30 +5,30 @@
 //  Created by Naruki Chigira on 2024/12/22.
 //
 
-import AppGroupFiles
+import AppGroupAccess
 import SwiftUI
 
 struct ItemList: View {
     @State var title: String
     @State var items: [Item]
 
-    private let files: AppGroupFiles
+    private let appgroup: AppGroup
 
-    init(directory: URL, files: AppGroupFiles) {
-        title = files.fileName(at: directory)
-        items = files.files(at: directory).map(Item.init(url:))
-        self.files = files
+    init(directory: URL, appgroup: AppGroup) {
+        title = appgroup.fileSystem.fileName(at: directory)
+        items = appgroup.fileSystem.files(at: directory).map(Item.init(url:))
+        self.appgroup = appgroup
     }
 
     var body: some View {
         List(items) { item in
-            if files.isDirectory(at: item.url) {
+            if appgroup.fileSystem.isDirectory(at: item.url) {
                 NavigationLink(
                     destination: {
-                        ItemList(directory: item.url, files: files)
+                        ItemList(directory: item.url, appgroup: appgroup)
                     },
                     label: {
-                        Text(files.fileName(at: item.url))
+                        Text(appgroup.fileSystem.fileName(at: item.url))
                     }
                 )
             } else {
@@ -37,7 +37,7 @@ struct ItemList: View {
                         share(items: [item.url])
                     },
                     label: {
-                        Text(files.fileName(at: item.url))
+                        Text(appgroup.fileSystem.fileName(at: item.url))
                     }
                 )
             }

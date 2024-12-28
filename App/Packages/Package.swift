@@ -4,21 +4,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "AppGroupFiles",
+    name: "AppGroupAccess",
     platforms: [
         .iOS(.v17)
     ],
     products: [
         .library(
-            name: "AppGroupFiles",
-            targets: ["AppGroupFiles"]),
+            name: "AppGroupAccess",
+            targets: ["AppGroupAccess"]),
     ],
     targets: [
         .target(
-            name: "AppGroupFiles"),
-        .testTarget(
-            name: "AppGroupFilesTests",
-            dependencies: ["AppGroupFiles"]
+            name: "AppGroupAccess"
         ),
     ]
 )

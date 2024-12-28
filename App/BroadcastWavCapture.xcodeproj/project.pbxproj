@@ -11,8 +11,8 @@
 		43BCFA902D1818140005A410 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BCFA8F2D1818140005A410 /* ReplayKit.framework */; };
 		43BCFA972D1818140005A410 /* BroadcastUploadWavCapture.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 43BCFA8E2D1818140005A410 /* BroadcastUploadWavCapture.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		43BCFA9E2D1818600005A410 /* BroadcastWavCapture in Frameworks */ = {isa = PBXBuildFile; productRef = 43BCFA9D2D1818600005A410 /* BroadcastWavCapture */; };
-		43BCFAA32D1825260005A410 /* AppGroupFiles in Frameworks */ = {isa = PBXBuildFile; productRef = 43BCFAA22D1825260005A410 /* AppGroupFiles */; };
-		43BCFAAD2D18521C0005A410 /* AppGroupFiles in Frameworks */ = {isa = PBXBuildFile; productRef = 43BCFAAC2D18521C0005A410 /* AppGroupFiles */; };
+		43BCFB2C2D1FEAF20005A410 /* AppGroupAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 43BCFB2B2D1FEAF20005A410 /* AppGroupAccess */; };
+		43BCFB2E2D1FEAFD0005A410 /* AppGroupAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 43BCFB2D2D1FEAFD0005A410 /* AppGroupAccess */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		433442CC2D17B2F9009A3B61 /* BroadcastWavCapture */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BroadcastWavCapture; path = /Users/naru/Desktop/BroadcastWavCapture; sourceTree = "<absolute>"; };
+		433442CC2D17B2F9009A3B61 /* BroadcastWavCapture */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BroadcastWavCapture; path = ..; sourceTree = SOURCE_ROOT; };
 		436F79D32D17B28C000FEDCF /* BroadcastWavCaptureApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BroadcastWavCaptureApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		436F79E32D17B28D000FEDCF /* BroadcastWavCaptureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BroadcastWavCaptureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		436F79ED2D17B28D000FEDCF /* BroadcastWavCaptureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BroadcastWavCaptureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43BCFAA32D1825260005A410 /* AppGroupFiles in Frameworks */,
+				43BCFB2C2D1FEAF20005A410 /* AppGroupAccess in Frameworks */,
 				43BCFA892D17F7290005A410 /* BroadcastWavCapture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,7 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43BCFA9E2D1818600005A410 /* BroadcastWavCapture in Frameworks */,
-				43BCFAAD2D18521C0005A410 /* AppGroupFiles in Frameworks */,
+				43BCFB2E2D1FEAFD0005A410 /* AppGroupAccess in Frameworks */,
 				43BCFA902D1818140005A410 /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,7 +192,7 @@
 			name = BroadcastWavCaptureApp;
 			packageProductDependencies = (
 				43BCFA882D17F7290005A410 /* BroadcastWavCapture */,
-				43BCFAA22D1825260005A410 /* AppGroupFiles */,
+				43BCFB2B2D1FEAF20005A410 /* AppGroupAccess */,
 			);
 			productName = BroadcastWavCapture;
 			productReference = 436F79D32D17B28C000FEDCF /* BroadcastWavCaptureApp.app */;
@@ -262,7 +262,7 @@
 			name = BroadcastUploadWavCapture;
 			packageProductDependencies = (
 				43BCFA9D2D1818600005A410 /* BroadcastWavCapture */,
-				43BCFAAC2D18521C0005A410 /* AppGroupFiles */,
+				43BCFB2D2D1FEAFD0005A410 /* AppGroupAccess */,
 			);
 			productName = BroadcastUploadWavCapture;
 			productReference = 43BCFA8E2D1818140005A410 /* BroadcastUploadWavCapture.appex */;
@@ -797,13 +797,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = BroadcastWavCapture;
 		};
-		43BCFAA22D1825260005A410 /* AppGroupFiles */ = {
+		43BCFB2B2D1FEAF20005A410 /* AppGroupAccess */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppGroupFiles;
+			productName = AppGroupAccess;
 		};
-		43BCFAAC2D18521C0005A410 /* AppGroupFiles */ = {
+		43BCFB2D2D1FEAFD0005A410 /* AppGroupAccess */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppGroupFiles;
+			productName = AppGroupAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
