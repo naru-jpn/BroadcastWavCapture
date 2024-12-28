@@ -13,7 +13,6 @@ struct ContentView: View {
 
     var body: some View {
         ItemList(directory: directory, appgroup: appgroup)
-            .navigationTitle("Root")
     }
 
     private var directory: URL {
