@@ -42,7 +42,7 @@ public class WAVWriter {
     /// Complete metadata for content size with current written content.
     public func completeMetadata() {
         do {
-            let currentOffset = try fileHandle.offset()
+            let currentOffset = UInt32(try fileHandle.offset())
             // update file size
             let fileSize = {
                 var littleEndian = (currentOffset - 8).littleEndian
@@ -55,7 +55,7 @@ public class WAVWriter {
                 var littleEndian = (currentOffset - 44).littleEndian
                 return Data(bytes: &littleEndian, count: 4)
             }()
-            try fileHandle.seek(toOffset: 41)
+            try fileHandle.seek(toOffset: 40)
             try fileHandle.write(contentsOf: dataSize)
             try fileHandle.seekToEnd()
         } catch {

@@ -6,12 +6,20 @@
 //
 
 import AppGroupAccess
+import BroadcastWavCapture
 import Combine
 import SwiftUI
 
 struct ItemList: View {
     @State var title: String
     @State var items: [Item]
+
+    @State var isShowingWavFile: Bool = false
+    @State var selectedWavFile: WAV.File? {
+        didSet {
+            isShowingWavFile = true
+        }
+    }
 
     @AppStorage("isBroadcasting", store: store) var isBroadcasting: Bool?
 
@@ -37,20 +45,45 @@ struct ItemList: View {
                     }
                 )
             } else {
-                HStack {
+                HStack(spacing: 12) {
+                    Text(fileSystem.fileName(at: item.url))
                     Button(
                         action: {
                             share(items: [item.url])
                         },
                         label: {
-                            Text(fileSystem.fileName(at: item.url))
+                            Image(systemName: "square.and.arrow.up")
                         }
                     )
+                    .buttonStyle(.borderless)
                     Spacer()
+                    if let wav = item.wav {
+                        Button(
+                            action: {
+                                self.selectedWavFile = wav
+                            },
+                            label: {
+                                Image(systemName: "info.circle")
+                            }
+                        )
+                        .buttonStyle(.borderless)
+                    }
                 }
             }
         }
         .navigationTitle(title)
+        .alert(
+            "Information of WAV File",
+            isPresented: $isShowingWavFile,
+            presenting: selectedWavFile,
+            actions: { wav in
+                Button("OK") {}
+            },
+            message: { wav in
+                Text(wav.info())
+                    .lineLimit(0)
+            }
+        )
         .onReceive(self.isBroadcasting.publisher) { isBroadcasting in
             let items = fileSystem.files(at: directory).map(Item.init(url:))
             if !isBroadcasting, self.items != items {

@@ -97,7 +97,7 @@ extension SampleHandler {
 extension SampleHandler {
     private var currentTimestamp: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd_H:mm:ss"
+        dateFormatter.dateFormat = "yyyyMMdd_HH:mm:ss"
         return dateFormatter.string(from: Date())
     }
 
