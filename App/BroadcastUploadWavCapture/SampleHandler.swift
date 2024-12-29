@@ -9,6 +9,9 @@ import Accelerate
 import AppGroupAccess
 import BroadcastWavCapture
 import ReplayKit
+import SwiftUI
+
+let store = UserDefaults(suiteName: "group.com.example.broadcast_wav_capture")
 
 class SampleHandler: RPBroadcastSampleHandler {
     private var directoryName: String = ""
@@ -18,7 +21,10 @@ class SampleHandler: RPBroadcastSampleHandler {
 
     private let resampler = WAVSignalResampler()
 
+    @AppStorage("isBroadcasting", store: store) var isBroadcasting: Bool = false
+
     override func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
+        isBroadcasting = true
         directoryName = currentTimestamp
     }
     
@@ -31,8 +37,13 @@ class SampleHandler: RPBroadcastSampleHandler {
     override func broadcastFinished() {
         writerForApp?.completeMetadata()
         writerForMic?.completeMetadata()
+        isBroadcasting = false
     }
-    
+
+    override func finishBroadcastWithError(_ error: any Error) {
+        isBroadcasting = false
+    }
+
     override func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with sampleBufferType: RPSampleBufferType) {
         switch sampleBufferType {
         case RPSampleBufferType.video:

@@ -6,17 +6,22 @@
 //
 
 import AppGroupAccess
+import Combine
 import SwiftUI
 
 struct ItemList: View {
     @State var title: String
     @State var items: [Item]
 
+    @AppStorage("isBroadcasting", store: store) var isBroadcasting: Bool?
+
+    private let directory: URL
     private let fileSystem: AppGroup.FileSystem
 
     init(directory: URL, fileSystem: AppGroup.FileSystem) {
         title = fileSystem.fileName(at: directory)
         items = fileSystem.files(at: directory).map(Item.init(url:))
+        self.directory = directory
         self.fileSystem = fileSystem
     }
 
@@ -43,6 +48,12 @@ struct ItemList: View {
             }
         }
         .navigationTitle(title)
+        .onReceive(self.isBroadcasting.publisher) { isBroadcasting in
+            let items = fileSystem.files(at: directory).map(Item.init(url:))
+            if !isBroadcasting, self.items != items {
+                self.items = items
+            }
+        }
     }
 
     @discardableResult
