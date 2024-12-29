@@ -16,7 +16,7 @@ extension WAV {
     /// Represent RIFF header.
     public struct RIFFHeader {
         /// Marks the file as a riff file
-        /// 0-4
+        /// 1-4
         public let mark = "RIFF"
         /// Size of the overall file - 8 bytes
         /// 5-8

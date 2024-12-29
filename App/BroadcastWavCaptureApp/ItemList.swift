@@ -37,14 +37,17 @@ struct ItemList: View {
                     }
                 )
             } else {
-                Button(
-                    action: {
-                        share(items: [item.url])
-                    },
-                    label: {
-                        Text(fileSystem.fileName(at: item.url))
-                    }
-                )
+                HStack {
+                    Button(
+                        action: {
+                            share(items: [item.url])
+                        },
+                        label: {
+                            Text(fileSystem.fileName(at: item.url))
+                        }
+                    )
+                    Spacer()
+                }
             }
         }
         .navigationTitle(title)
