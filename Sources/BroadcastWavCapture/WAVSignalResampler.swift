@@ -55,7 +55,7 @@ public class WAVSignalResampler {
             if countOutputSignals != interpolation.count, countOutputSignals > 0 {
                 self.interpolation = .init(start: .allocate(capacity: countOutputSignals), count: countOutputSignals)
                 if let address = self.interpolation.baseAddress {
-                    vDSP_vgen([0], [Float(countOutputSignals - 1)], address, 1, vDSP_Length(countOutputSignals))
+                    vDSP_vgen([0], [Float(countSourceSignals - 1)], address, 1, vDSP_Length(countOutputSignals))
                 }
             }
             if maxCountSignals != intermediate.count {
