@@ -20,7 +20,3 @@ struct ContentView: View {
             .appending(component: "wavs", directoryHint: .isDirectory)
     }
 }
-
-#Preview {
-    ContentView()
-}

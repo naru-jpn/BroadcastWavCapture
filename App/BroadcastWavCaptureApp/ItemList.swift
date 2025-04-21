@@ -14,12 +14,13 @@ struct ItemList: View {
     @State var title: String
     @State var items: [Item]
 
-    @State var isShowingWavFile: Bool = false
-    @State var selectedWavFile: WAV.File? {
+    @State var isPreviewingWavFile: Bool = false
+    @State var previewedWavFile: WAV.File? {
         didSet {
-            isShowingWavFile = true
+            isPreviewingWavFile = true
         }
     }
+    @State var selectedItem: Item? = nil
 
     @AppStorage("isBroadcasting", store: store) var isBroadcasting: Bool?
 
@@ -47,35 +48,29 @@ struct ItemList: View {
             } else {
                 HStack(spacing: 12) {
                     Text(fileSystem.fileName(at: item.url))
-                    Button(
-                        action: {
-                            share(items: [item.url])
-                        },
-                        label: {
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    )
-                    .buttonStyle(.borderless)
+                    Image(systemName: "square.and.arrow.up").onTapGesture {
+                        share(items: [item.url])
+                    }
+                    .foregroundStyle(.blue)
                     Spacer()
                     if let wav = item.wav {
-                        Button(
-                            action: {
-                                self.selectedWavFile = wav
-                            },
-                            label: {
-                                Image(systemName: "info.circle")
-                            }
-                        )
-                        .buttonStyle(.borderless)
+                        Image(systemName: "info.circle").onTapGesture {
+                            self.previewedWavFile = wav
+                        }
+                        .foregroundStyle(.blue)
                     }
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    self.selectedItem = item
                 }
             }
         }
         .navigationTitle(title)
         .alert(
             "Information of WAV File",
-            isPresented: $isShowingWavFile,
-            presenting: selectedWavFile,
+            isPresented: $isPreviewingWavFile,
+            presenting: previewedWavFile,
             actions: { wav in
                 Button("OK") {}
             },
@@ -84,6 +79,11 @@ struct ItemList: View {
                     .lineLimit(0)
             }
         )
+        .sheet(item: self.$selectedItem, content: { item in
+            if let file = item.wav {
+                WaveformView(url: item.url, file: file)
+            }
+        })
         .onReceive(self.isBroadcasting.publisher) { isBroadcasting in
             let items = fileSystem.files(at: directory).map(Item.init(url:))
             if !isBroadcasting, self.items != items {
