@@ -29,8 +29,9 @@ struct WaveformView: View {
                 VStack(spacing: 8) {
                     GeometryReader { geometry in
                         ScrollView(.horizontal, showsIndicators: true) {
-                            let contentLength = (CGFloat(waveformModel.samples.count) / CGFloat(file.fmt.sampleRate)) * geometry.size.width
-                            WaveformDrawingView(samples: waveformModel.samples, sampleRate: Int(file.fmt.sampleRate), color: .blue, parentWidth: geometry.size.width)
+                            let lengthOfSecond: CGFloat = min(geometry.size.width, 200)
+                            let contentLength = (CGFloat(waveformModel.samples.count) / CGFloat(file.fmt.sampleRate)) * lengthOfSecond
+                            WaveformDrawingView(samples: waveformModel.samples, sampleRate: Int(file.fmt.sampleRate), color: .blue, lengthOfSecond: lengthOfSecond)
                                 .frame(width: contentLength, height: 200)
                         }
                     }
@@ -106,7 +107,7 @@ private struct WaveformDrawingView: View {
     let samples: [Float]
     let sampleRate: Int
     let color: Color
-    let parentWidth: CGFloat
+    let lengthOfSecond: CGFloat
 
     var body: some View {
         GeometryReader { geometry in
@@ -116,7 +117,7 @@ private struct WaveformDrawingView: View {
             let seconds = Int(samples.count / sampleRate)
             Path { path in
                 for index in stride(from: 1, through: seconds, by: 1) {
-                    let x = parentWidth * CGFloat(index)
+                    let x = lengthOfSecond * CGFloat(index)
                     path.move(to: CGPoint(x: x, y: 0))
                     path.addLine(to: CGPoint(x: x, y: height))
                 }
@@ -125,8 +126,8 @@ private struct WaveformDrawingView: View {
             .foregroundStyle(.gray)
 
             Path { path in
-                let pointSpacing = parentWidth / CGFloat(sampleRate)
-                let pointStride = Int(0.5 / pointSpacing)
+                let pointSpacing = lengthOfSecond / CGFloat(sampleRate)
+                let pointStride = Int(0.25 / pointSpacing)
 
                 path.move(to: CGPoint(x: 0, y: middle))
                 for index in stride(from: 0, to: samples.count, by: pointStride) {
@@ -138,7 +139,7 @@ private struct WaveformDrawingView: View {
             .stroke(color, lineWidth: 0.5)
 
             ForEach(1...seconds, id: \.self) { index in
-                let x = parentWidth * CGFloat(index)
+                let x = lengthOfSecond * CGFloat(index)
                 Text("\(index)s")
                     .font(.system(.footnote, design: .rounded, weight: .bold))
                     .foregroundStyle(.gray)
