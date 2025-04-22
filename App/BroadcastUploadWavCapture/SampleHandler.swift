@@ -15,8 +15,8 @@ let store = UserDefaults(suiteName: "group.com.example.broadcast_wav_capture")
 
 class SampleHandler: RPBroadcastSampleHandler {
     private var directoryName: String = ""
-    private var writerForApp: WAVWriter?
-    private var writerForMic: WAVWriter?
+    private var wavWriterApp: WAVWriter?
+    private var wavWriterMic: WAVWriter?
     private lazy var fileSystem: AppGroup.FileSystem = { AppGroup(securityApplicationGroupIdentifier: "group.com.example.broadcast_wav_capture").fileSystem }()
 
     private let resampler = WAVSignalResampler()
@@ -35,8 +35,8 @@ class SampleHandler: RPBroadcastSampleHandler {
     }
     
     override func broadcastFinished() {
-        writerForApp?.completeMetadata()
-        writerForMic?.completeMetadata()
+        wavWriterApp?.completeMetadata()
+        wavWriterMic?.completeMetadata()
         isBroadcasting = false
     }
 
@@ -50,28 +50,28 @@ class SampleHandler: RPBroadcastSampleHandler {
             break
         case RPSampleBufferType.audioApp:
             let sampleRate = getSampleRate(from: sampleBuffer)
-            if let writerForApp {
+            if let wavWriterApp {
                 do {
                     let data = try resampler.resample(signalsOf: sampleBuffer, sampleRate: sampleRate)
-                    writerForApp.writeAudio(data: data)
+                    wavWriterApp.writeAudio(data: data)
                 } catch {
                     print(error)
                 }
             } else {
-                writerForApp = WAVWriter(url: appWavURL, sampleRate: UInt32(sampleRate))
+                wavWriterApp = WAVWriter(url: appWavURL, sampleRate: UInt32(sampleRate))
             }
             break
         case RPSampleBufferType.audioMic:
             let sampleRate = getSampleRate(from: sampleBuffer)
-            if let writerForMic {
+            if let wavWriterMic {
                 do {
                     let data = try resampler.resample(signalsOf: sampleBuffer, sampleRate: sampleRate)
-                    writerForMic.writeAudio(data: data)
+                    wavWriterMic.writeAudio(data: data)
                 } catch {
                     print(error)
                 }
             } else {
-                writerForMic = WAVWriter(url: micWavURL, sampleRate: UInt32(sampleRate))
+                wavWriterMic = WAVWriter(url: micWavURL, sampleRate: UInt32(sampleRate))
             }
             break
         @unknown default:
