@@ -46,11 +46,6 @@ Record audio using broadcast upload extension and browse stored files from appli
 
 <img src="https://github.com/user-attachments/assets/691c80da-2d38-4edc-bceb-355fb7f01602" width="750">
 
-| List of files | Show information of WAV file |
-|:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/c3324730-c809-44f3-b8fb-1399bc802d91" width="250"> | <img src="https://github.com/user-attachments/assets/7390398a-e681-4cb3-8d32-a5bbdc1805b6" width="250"> |
-
-
-
-
-
+| List of files | Show information of WAV file | Preview audio wave form |
+|:---:|:---:|:---:|
+| <img src="https://github.com/user-attachments/assets/c3324730-c809-44f3-b8fb-1399bc802d91" width="250"> | <img src="https://github.com/user-attachments/assets/7390398a-e681-4cb3-8d32-a5bbdc1805b6" width="250"> | <img src="https://github.com/user-attachments/assets/921cfc48-042e-4ba5-831a-6e73940c4e0f" width="250"> |
