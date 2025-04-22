@@ -1,6 +1,6 @@
 # BroadcastWavCapture
 
-Swift Package to resample and record audio data as lenear PCM formatted single channel wav file.
+Record, resample and preview audio data as lenear PCM formatted single channel wav file.
 
 ## Installation
 
